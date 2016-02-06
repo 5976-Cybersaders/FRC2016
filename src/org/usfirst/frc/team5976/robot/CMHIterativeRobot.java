@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Robot extends IterativeRobot {
+public class CMHIterativeRobot extends IterativeRobot {
     final String defaultAuto = "Default";
     final String customAuto = "My Auto";
     String autoSelected;
@@ -25,7 +25,7 @@ public class Robot extends IterativeRobot {
     private boolean logEnabled = true;
     private static double expoFactor = 0.2;
     
-    public Robot() {
+    public CMHIterativeRobot() {
         
     }
 	
@@ -97,6 +97,7 @@ public class Robot extends IterativeRobot {
     	log("Compressor values: " + enabled + " " + pressureSwitch + " " + current);
     	
     	while (isOperatorControl() && isEnabled()) {
+    		compressor.start();
         	xBoxRight = xBox1.getRightJoyY();
         	xBoxLeft = xBox1.getLeftJoyY();
         	
@@ -107,7 +108,7 @@ public class Robot extends IterativeRobot {
         		solenoid.set(DoubleSolenoid.Value.kForward);
         	}
         	else{
-        		if(xBox2.getButtonRB() && solenoid.get() != DoubleSolenoid.Value.kReverse){
+        		if(xBox2.getButtonRB()){
         			log("SOLENOID REVERSE");
         			solenoid.set(DoubleSolenoid.Value.kReverse);
         		}
@@ -119,6 +120,7 @@ public class Robot extends IterativeRobot {
             
         	Timer.delay(0.005);
         }
+    	compressor.stop();
     }
     
     public void disabledInit(){
