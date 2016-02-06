@@ -22,6 +22,8 @@ public class Robot extends IterativeRobot {
     PowerDistributionPanel pdp;
     Compressor compressor;
     DoubleSolenoid solenoid;
+    private boolean logEnabled = true;
+    private static double expoFactor = 0.2;
     
     public Robot() {
         
@@ -59,7 +61,7 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
     	autoSelected = (String) chooser.getSelected();
 //		autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
-		System.out.println("Auto selected: " + autoSelected);
+		log("Auto selected: " + autoSelected);
     }
 
     /**
@@ -69,18 +71,18 @@ public class Robot extends IterativeRobot {
     	switch(autoSelected) {
     		case customAuto:
     			//Put custom auto code here   
-    			System.out.println("Running custom autonomous...");
+    			log("Running custom autonomous...");
     			break;
     		case defaultAuto:
     		default:
     			//Put default auto code here
-    			System.out.println("Running default autonomous...");
+    			log("Running default autonomous...");
     			break;
     	}
     }
 
     public void teleopInit() {
-        System.out.println("Teleoperated init");
+        log("Teleoperated init");
       }
     
     /**
@@ -92,27 +94,25 @@ public class Robot extends IterativeRobot {
     	boolean pressureSwitch = compressor.getPressureSwitchValue();
     	float current = compressor.getCompressorCurrent();
     	
-    	//System.out.println("Compressor values: " + enabled + " " + pressureSwitch + " " + current);
+    	log("Compressor values: " + enabled + " " + pressureSwitch + " " + current);
     	
     	while (isOperatorControl() && isEnabled()) {
         	xBoxRight = xBox1.getRightJoyY();
         	xBoxLeft = xBox1.getLeftJoyY();
         	
-        	System.out.println();
-        	
         	robotDrive.tankDrive(adjustSpeed(xBoxLeft), adjustSpeed(xBoxRight));
         	
         	if(xBox2.getButtonLB()){
-        		System.out.println("SOLENOID FORWARD");
+        		log("SOLENOID FORWARD");
         		solenoid.set(DoubleSolenoid.Value.kForward);
         	}
         	else{
         		if(xBox2.getButtonRB() && solenoid.get() != DoubleSolenoid.Value.kReverse){
-        			System.out.println("SOLENOID REVERSE");
+        			log("SOLENOID REVERSE");
         			solenoid.set(DoubleSolenoid.Value.kReverse);
         		}
         		else{
-        			System.out.println("SOLENOID OFF");
+        			log("SOLENOID OFF");
         			solenoid.set(DoubleSolenoid.Value.kOff);
         		}
         	}
@@ -133,21 +133,14 @@ public class Robot extends IterativeRobot {
     
     }
     
-    /*public static void main(String [] args){
-    	adjustSpeed(1.0);
-    	adjustSpeed(0.5);
-    	adjustSpeed(0.25);
-    	adjustSpeed(0);
-    	adjustSpeed(-0.25);
-    	adjustSpeed(-0.5);
-    	adjustSpeed(-1.0);
-    }*/
-    
-    static double expoFactor = 0.2;
-    
     public static double adjustSpeed(double d){
     	double speed = Math.signum(d) * Math.pow(Math.abs(d), Math.pow(4, expoFactor));
-    	//System.out.println("Input: " + d + " Output: " + speed);
     	return speed;
+    }
+    
+    public void log(String s){
+    	if(logEnabled){
+    		System.out.println(s);
+    	}
     }
 }
