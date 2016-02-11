@@ -1,14 +1,14 @@
 package org.usfirst.frc.team5976.robot;
 
+import org.usfirst.frc.team5976.robot.commands.MoveShovel;
 import org.usfirst.frc.team5976.robot.commands.PressedCommand;
-import org.usfirst.frc.team5976.robot.commands.TeleOpTankDrive;
+import org.usfirst.frc.team5976.robot.commands.ShovelOff;
+import org.usfirst.frc.team5976.robot.commands.ShovelUp;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -49,9 +49,12 @@ public class OI {
 	
 	public OI(){
 		driveController = new XBoxController(0);
-		shovelController = new XBoxController(2);
+		shovelController = new XBoxController(1);
 		upButton = new XBoxButton(shovelController, 5);
 		downButton = new XBoxButton(shovelController, 6);
+		
+		upButton.whileHeld(new MoveShovel(DoubleSolenoid.Value.kForward));
+		downButton.whileHeld(new MoveShovel(DoubleSolenoid.Value.kReverse));
 	}
 
 	public XBoxController getDriveController() {
@@ -62,4 +65,3 @@ public class OI {
 		this.driveController = driveController;
 	}
 }
-

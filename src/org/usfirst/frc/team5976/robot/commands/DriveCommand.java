@@ -11,12 +11,14 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveCommand extends Command{
 	private long timeMS, t0;
 	private double leftSpeed, rightSpeed;
+	
 	public DriveCommand(long timeMS, double leftSpeed, double rightSpeed){
 		this.timeMS = timeMS;
 		this.leftSpeed = leftSpeed;
 		this.rightSpeed = rightSpeed;
 		requires(CMHCommandBasedRobot.driveBase);
 	}
+	
 	@Override
 	protected void initialize() {
 		t0 = System.currentTimeMillis();
