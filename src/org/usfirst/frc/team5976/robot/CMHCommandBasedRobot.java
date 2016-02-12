@@ -21,14 +21,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class CMHCommandBasedRobot extends IterativeRobot {
-
+	
 	public static DriveBase driveBase;
 	public static Shovel shovel;
-	public static OI oi;
+	public static double maxAllowedSpeedChange = .05;
+	public static final OI oi = new OI();
 
     Command autonomousCommand;
     SendableChooser chooser, chooser2;
 
+    public CMHCommandBasedRobot(){
+    	System.out.println("CONSTRUCTING COMMAND BASED ROBOT");
+    }
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -37,7 +42,6 @@ public class CMHCommandBasedRobot extends IterativeRobot {
     	System.out.println("INIT COMMAND-BASED ROBOT");
 		driveBase = new DriveBase();
 		shovel = new Shovel();
-		oi = new OI();
 		
 		SmartDashboard.putData("ButtonPressed", new PressedCommand());
 		chooser = makeChooser();
@@ -54,10 +58,10 @@ public class CMHCommandBasedRobot extends IterativeRobot {
 	
 	public SendableChooser makeChooser(){
 		SendableChooser chooser = new SendableChooser();
-        chooser.addDefault("Drive Forward 2s", new DriveCommand(2000, .5, .5));
-        chooser.addObject("Drive Backward 3s", new DriveCommand(3000, -.5, -.5));
-        chooser.addObject("Turn Left", new DriveCommand(1000, 0, .5));
-        chooser.addObject("Turn Right", new DriveCommand(1000, .5, 0));
+        chooser.addDefault("Drive Forward 2s", new DriveCommand(2000, -.5, -.5));
+        chooser.addObject("Drive Backward 3s", new DriveCommand(3000, .5, .5));
+        chooser.addObject("Turn Left", new DriveCommand(1000, 0, -.5));
+        chooser.addObject("Turn Right", new DriveCommand(1000, -.5, 0));
         chooser.addObject("Multiple Moves", new MultiMoveCommand());
         return chooser;
 	}

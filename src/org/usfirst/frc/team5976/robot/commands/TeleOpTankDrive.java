@@ -1,12 +1,18 @@
 package org.usfirst.frc.team5976.robot.commands;
 
 import org.usfirst.frc.team5976.robot.CMHCommandBasedRobot;
+import org.usfirst.frc.team5976.robot.XBoxController;
+import org.usfirst.frc.team5976.robot.subsystems.DriveBase;
 
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class TeleOpTankDrive extends Command {
-	
-	static double expoFactor = 0.2;
+
+	private final XBoxController driveController = CMHCommandBasedRobot.oi.getDriveController();
+	private final RobotDrive robotDrive = CMHCommandBasedRobot.driveBase.getRobotDrive();
+	private final SpeedCalculator leftSpeedCalculator = new SpeedCalculator(false, true, 1, driveController);
+	private final SpeedCalculator rightSpeedCalculator = new SpeedCalculator(false, false, 1, driveController);
 	
 	public TeleOpTankDrive(){
 		requires(CMHCommandBasedRobot.driveBase);
@@ -19,11 +25,9 @@ public class TeleOpTankDrive extends Command {
 
 	@Override
 	protected void execute() {
-		double xBoxLeft = CMHCommandBasedRobot.oi.getDriveController().getLeftJoyY();
-		double xBoxRight = CMHCommandBasedRobot.oi.getDriveController().getRightJoyY();
-		CMHCommandBasedRobot.driveBase.getRobotDrive().tankDrive(adjustSpeed(xBoxLeft), adjustSpeed(xBoxRight));
+		robotDrive.tankDrive(leftSpeedCalculator.calcNext(), rightSpeedCalculator.calcNext());
 	}
-
+	
 	@Override
 	protected boolean isFinished() {
 		// Command is always on because we want to continuously respond to driving inputs
@@ -39,10 +43,4 @@ public class TeleOpTankDrive extends Command {
 	protected void interrupted() {
 		end();
 	}
-	
-	
-    public static double adjustSpeed(double d){
-    	double speed = Math.signum(d) * Math.pow(Math.abs(d), Math.pow(4, expoFactor));
-    	return speed;
-    }
 }

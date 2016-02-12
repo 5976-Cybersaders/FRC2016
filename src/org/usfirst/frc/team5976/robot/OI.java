@@ -4,6 +4,7 @@ import org.usfirst.frc.team5976.robot.commands.MoveShovel;
 import org.usfirst.frc.team5976.robot.commands.PressedCommand;
 import org.usfirst.frc.team5976.robot.commands.ShovelOff;
 import org.usfirst.frc.team5976.robot.commands.ShovelUp;
+import org.usfirst.frc.team5976.robot.commands.SpeedRampAdjustmentCommand;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
@@ -41,20 +42,25 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
 	
+	private static final double adjustmentAmount = 0.05;
 	private XBoxController driveController;
 	private XBoxController shovelController;
 	/*private Joystick stick = new Joystick(0);
 	private JoystickButton button = new JoystickButton(stick, 0);*/
-	private XBoxButton upButton, downButton;
+	private XBoxButton shovelUpButton, shovelDownButton, increaseSpeedAdjustmentButton, decreaseSpeedAdjustmentButton;
 	
 	public OI(){
 		driveController = new XBoxController(0);
 		shovelController = new XBoxController(1);
-		upButton = new XBoxButton(shovelController, 5);
-		downButton = new XBoxButton(shovelController, 6);
+		shovelUpButton = new XBoxButton(shovelController, 5);
+		shovelDownButton = new XBoxButton(shovelController, 6);
+		increaseSpeedAdjustmentButton = new XBoxButton(driveController, 0);
+		decreaseSpeedAdjustmentButton = new XBoxButton(driveController, 1);
 		
-		upButton.whileHeld(new MoveShovel(DoubleSolenoid.Value.kForward));
-		downButton.whileHeld(new MoveShovel(DoubleSolenoid.Value.kReverse));
+		shovelUpButton.whileHeld(new MoveShovel(DoubleSolenoid.Value.kForward));
+		shovelDownButton.whileHeld(new MoveShovel(DoubleSolenoid.Value.kReverse));
+		increaseSpeedAdjustmentButton.whenPressed(new SpeedRampAdjustmentCommand(adjustmentAmount));
+		decreaseSpeedAdjustmentButton.whenPressed(new SpeedRampAdjustmentCommand(-adjustmentAmount));
 	}
 
 	public XBoxController getDriveController() {

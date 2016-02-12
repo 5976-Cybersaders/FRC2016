@@ -46,6 +46,7 @@ public class CMHIterativeRobot extends IterativeRobot {
         pdp = new PowerDistributionPanel();
         compressor = new Compressor();
         compressor.setClosedLoopControl(true);
+        System.out.println("Closed Loop Control Set");
         solenoid = new DoubleSolenoid(0, 1);
     }
     
