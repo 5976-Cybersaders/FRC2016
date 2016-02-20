@@ -1,17 +1,19 @@
 package org.usfirst.frc.team5976.robot.commands;
 
-import org.usfirst.frc.team5976.robot.CMHCommandBasedRobot;
+import org.usfirst.frc.team5976.robot.subsystems.ShovelSubsystem;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveShovel extends Command{
 
+	ShovelSubsystem shovel;
 	DoubleSolenoid.Value direction;
 	
-	public MoveShovel(DoubleSolenoid.Value direction){
+	public MoveShovel(ShovelSubsystem shovel, DoubleSolenoid.Value direction){
+		this.shovel = shovel;
 		this.direction = direction;
-		requires(CMHCommandBasedRobot.shovel);
+		requires(shovel);
 	}
 	
 	@Override
@@ -22,7 +24,7 @@ public class MoveShovel extends Command{
 	@Override
 	protected void execute() {
 		System.out.println("MOVING " + direction);
-		CMHCommandBasedRobot.shovel.getDoubleSolenoid().set(direction);		
+		shovel.getDoubleSolenoid().set(direction);		
 	}
 
 	@Override
@@ -32,7 +34,7 @@ public class MoveShovel extends Command{
 
 	@Override
 	protected void end() {
-		CMHCommandBasedRobot.shovel.getDoubleSolenoid().set(DoubleSolenoid.Value.kOff);
+		shovel.getDoubleSolenoid().set(DoubleSolenoid.Value.kOff);
 	}
 
 	@Override

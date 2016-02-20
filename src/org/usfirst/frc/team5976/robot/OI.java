@@ -1,15 +1,10 @@
 package org.usfirst.frc.team5976.robot;
 
 import org.usfirst.frc.team5976.robot.commands.MoveShovel;
-import org.usfirst.frc.team5976.robot.commands.PressedCommand;
-import org.usfirst.frc.team5976.robot.commands.ShovelOff;
-import org.usfirst.frc.team5976.robot.commands.ShovelUp;
 import org.usfirst.frc.team5976.robot.commands.SpeedRampAdjustmentCommand;
+import org.usfirst.frc.team5976.robot.subsystems.ShovelSubsystem;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -45,22 +40,20 @@ public class OI {
 	private static final double adjustmentAmount = 0.05;
 	private XBoxController driveController;
 	private XBoxController shovelController;
-	/*private Joystick stick = new Joystick(0);
-	private JoystickButton button = new JoystickButton(stick, 0);*/
 	private XBoxButton shovelUpButton, shovelDownButton, increaseSpeedAdjustmentButton, decreaseSpeedAdjustmentButton;
 	
-	public OI(){
+	public OI(ShovelSubsystem shovel){
 		driveController = new XBoxController(0);
 		shovelController = new XBoxController(1);
 		shovelUpButton = new XBoxButton(shovelController, 5);
 		shovelDownButton = new XBoxButton(shovelController, 6);
-		increaseSpeedAdjustmentButton = new XBoxButton(driveController, 0);
-		decreaseSpeedAdjustmentButton = new XBoxButton(driveController, 1);
+		//increaseSpeedAdjustmentButton = new XBoxButton(shovelController, 1);
+		//decreaseSpeedAdjustmentButton = new XBoxButton(shovelController, 2);
 		
-		shovelUpButton.whileHeld(new MoveShovel(DoubleSolenoid.Value.kForward));
-		shovelDownButton.whileHeld(new MoveShovel(DoubleSolenoid.Value.kReverse));
-		increaseSpeedAdjustmentButton.whenPressed(new SpeedRampAdjustmentCommand(adjustmentAmount));
-		decreaseSpeedAdjustmentButton.whenPressed(new SpeedRampAdjustmentCommand(-adjustmentAmount));
+		shovelUpButton.whileHeld(new MoveShovel(shovel, DoubleSolenoid.Value.kForward));
+		shovelDownButton.whileHeld(new MoveShovel(shovel, DoubleSolenoid.Value.kReverse));
+		//increaseSpeedAdjustmentButton.whenPressed(new SpeedRampAdjustmentCommand(adjustmentAmount));
+		//decreaseSpeedAdjustmentButton.whenPressed(new SpeedRampAdjustmentCommand(-adjustmentAmount));
 	}
 
 	public XBoxController getDriveController() {

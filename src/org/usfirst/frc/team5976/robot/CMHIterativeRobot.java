@@ -21,7 +21,8 @@ public class CMHIterativeRobot extends IterativeRobot {
     XBoxController xBox1, xBox2;
     PowerDistributionPanel pdp;
     Compressor compressor;
-    DoubleSolenoid solenoid;
+    //DoubleSolenoid solenoid;
+    Solenoid singleSolenoidUp, singleSolenoidDown;
     private boolean logEnabled = true;
     private static double expoFactor = 0.2;
     
@@ -47,7 +48,9 @@ public class CMHIterativeRobot extends IterativeRobot {
         compressor = new Compressor();
         compressor.setClosedLoopControl(true);
         System.out.println("Closed Loop Control Set");
-        solenoid = new DoubleSolenoid(0, 1);
+        //solenoid = new DoubleSolenoid(0, 1);
+        singleSolenoidUp = new Solenoid(0);
+        singleSolenoidDown = new Solenoid(1);
     }
     
 	/**
@@ -101,10 +104,10 @@ public class CMHIterativeRobot extends IterativeRobot {
     		compressor.start();
         	xBoxRight = xBox1.getRightJoyY();
         	xBoxLeft = xBox1.getLeftJoyY();
+        	     	
+        	//robotDrive.tankDrive(0, -0.75);
         	
-        	robotDrive.tankDrive(adjustSpeed(xBoxLeft), adjustSpeed(xBoxRight));
-        	
-        	if(xBox2.getButtonLB()){
+        	/*if(xBox2.getButtonLB()){
         		log("SOLENOID FORWARD");
         		solenoid.set(DoubleSolenoid.Value.kForward);
         	}
@@ -117,7 +120,14 @@ public class CMHIterativeRobot extends IterativeRobot {
         			log("SOLENOID OFF");
         			solenoid.set(DoubleSolenoid.Value.kOff);
         		}
-        	}
+        	}*/
+        	
+        	if(xBox2.getButtonLB()) singleSolenoidUp.set(true); 
+        	else singleSolenoidUp.set(false);
+        	if(xBox2.getButtonRB()) singleSolenoidDown.set(true);
+        	else singleSolenoidDown.set(false);
+        	
+        	//if(xBox2.getButtonB()) singleSolenoid.set(DoubleSolenoid.Value.kOff);
             
         	Timer.delay(0.005);
         }
@@ -126,7 +136,7 @@ public class CMHIterativeRobot extends IterativeRobot {
     
     public void disabledInit(){
     	compressor.setClosedLoopControl(false);
-    	solenoid.set(DoubleSolenoid.Value.kOff);
+    	//solenoid.set(DoubleSolenoid.Value.kOff);
     }
     
     /**

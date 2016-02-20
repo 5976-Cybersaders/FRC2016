@@ -1,11 +1,22 @@
 package org.usfirst.frc.team5976.robot.commands;
 
+import org.usfirst.frc.team5976.robot.subsystems.DriveSubsystem;
+
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class MultiMoveCommand extends CommandGroup {
-	public MultiMoveCommand(){
-		addSequential(new DriveCommand(500, 0.0, -0.5));
-		addSequential(new DriveCommand(1000, -0.5, -0.5));
-		addSequential(new DriveCommand(500, -0.5, 0.0));
+	public MultiMoveCommand(RobotDrive robotDrive, DriveSubsystem driveBase){
+		DriveCommand command1 = new DriveCommand("M1.Fwd", robotDrive, driveBase, 4000, -0.61, -0.61, null);
+		DriveCommand delay1 = new DriveCommand("M2.Delay", robotDrive, driveBase, 500, 0.0, 0.0, command1);
+		DriveCommand command2 = new DriveCommand("M3.Right", robotDrive, driveBase, 1467, -0.5, 0.5, null);
+		DriveCommand delay2 = new DriveCommand("M4.Delay", robotDrive, driveBase, 500, 0.0, 0.0, command2);
+		DriveCommand command3 = new DriveCommand("M5.Fwd", robotDrive, driveBase, 4000, -0.61, -0.61, delay2);
+		
+		addSequential(command1);
+		addSequential(delay1);
+		addSequential(command2);
+		addSequential(delay2);
+		addSequential(command3);
 	}
 }

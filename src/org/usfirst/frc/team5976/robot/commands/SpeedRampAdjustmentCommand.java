@@ -4,7 +4,7 @@ import org.usfirst.frc.team5976.robot.CMHCommandBasedRobot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class SpeedRampAdjustmentCommand extends Command{
+public class SpeedRampAdjustmentCommand extends Command {
 
 	private double adjustmentAmount;
 	
@@ -19,22 +19,30 @@ public class SpeedRampAdjustmentCommand extends Command{
 
 	@Override
 	protected void execute() {
-		CMHCommandBasedRobot.maxAllowedSpeedChange += adjustmentAmount;
+		double newMaxAllowedChange = CMHCommandBasedRobot.maxAllowedSpeedChange  + adjustmentAmount;
+		System.out.println("Attempt to set newMaxAllowedChange to " + newMaxAllowedChange);
+		if(newMaxAllowedChange > 0 && newMaxAllowedChange < 1){
+			CMHCommandBasedRobot.maxAllowedSpeedChange = newMaxAllowedChange;
+			System.out.println(CMHCommandBasedRobot.maxAllowedSpeedChange);
+		} else System.out.println("newMaxAllowedChange of " + newMaxAllowedChange + " not allowed. Keeping at " + CMHCommandBasedRobot.maxAllowedSpeedChange);
 	}
 
 	@Override
 	protected boolean isFinished() {
+		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	protected void end() {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void interrupted() {
-		end();
+		// TODO Auto-generated method stub
+		
 	}
 
 }

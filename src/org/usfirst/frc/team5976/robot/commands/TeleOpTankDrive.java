@@ -2,25 +2,27 @@ package org.usfirst.frc.team5976.robot.commands;
 
 import org.usfirst.frc.team5976.robot.CMHCommandBasedRobot;
 import org.usfirst.frc.team5976.robot.XBoxController;
-import org.usfirst.frc.team5976.robot.subsystems.DriveBase;
+import org.usfirst.frc.team5976.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class TeleOpTankDrive extends Command {
 
-	private final XBoxController driveController = CMHCommandBasedRobot.oi.getDriveController();
-	private final RobotDrive robotDrive = CMHCommandBasedRobot.driveBase.getRobotDrive();
-	private final SpeedCalculator leftSpeedCalculator = new SpeedCalculator(false, true, 1, driveController);
-	private final SpeedCalculator rightSpeedCalculator = new SpeedCalculator(false, false, 1, driveController);
+	private final RobotDrive robotDrive;
+	private final SpeedCalculator leftSpeedCalculator; 
+	private final SpeedCalculator rightSpeedCalculator;
 	
-	public TeleOpTankDrive(){
-		requires(CMHCommandBasedRobot.driveBase);
+	public TeleOpTankDrive(XBoxController driveController, RobotDrive robotDrive, DriveSubsystem driveBase){
+		this.robotDrive = robotDrive;
+		leftSpeedCalculator = new TeleOpSpeedCalculator(true, driveController);
+		rightSpeedCalculator = new TeleOpSpeedCalculator(false, driveController);
+		requires(driveBase);
 	}
 
 	@Override
 	protected void initialize() {
-		
+	
 	}
 
 	@Override
@@ -36,7 +38,7 @@ public class TeleOpTankDrive extends Command {
 
 	@Override
 	protected void end() {
-		CMHCommandBasedRobot.driveBase.getRobotDrive().tankDrive(0.0, 0.0);
+		robotDrive.tankDrive(0.0, 0.0);
 	}
 
 	@Override

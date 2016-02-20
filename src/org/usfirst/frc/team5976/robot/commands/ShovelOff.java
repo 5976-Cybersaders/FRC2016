@@ -1,14 +1,18 @@
 package org.usfirst.frc.team5976.robot.commands;
 
 import org.usfirst.frc.team5976.robot.CMHCommandBasedRobot;
+import org.usfirst.frc.team5976.robot.subsystems.ShovelSubsystem;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ShovelOff extends Command{
 
-	public ShovelOff(){
-		requires(CMHCommandBasedRobot.shovel); 
+	ShovelSubsystem shovel;
+	
+	public ShovelOff(ShovelSubsystem shovel){
+		this.shovel = shovel;
+		requires(shovel); 
 	}
 	@Override
 	protected void initialize() {
@@ -17,7 +21,7 @@ public class ShovelOff extends Command{
 
 	@Override
 	protected void execute() {
-		CMHCommandBasedRobot.shovel.getDoubleSolenoid().set(DoubleSolenoid.Value.kOff);		
+		shovel.getDoubleSolenoid().set(DoubleSolenoid.Value.kOff);		
 	}
 
 	@Override

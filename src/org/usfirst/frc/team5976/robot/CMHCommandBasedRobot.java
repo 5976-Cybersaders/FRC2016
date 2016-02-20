@@ -3,10 +3,13 @@ package org.usfirst.frc.team5976.robot;
 
 import org.usfirst.frc.team5976.robot.commands.*;
 
-import org.usfirst.frc.team5976.robot.subsystems.DriveBase;
-import org.usfirst.frc.team5976.robot.subsystems.Shovel;
+import org.usfirst.frc.team5976.robot.subsystems.DriveSubsystem;
+import org.usfirst.frc.team5976.robot.subsystems.ShovelSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -22,16 +25,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class CMHCommandBasedRobot extends IterativeRobot {
 	
-	public static DriveBase driveBase;
-	public static Shovel shovel;
-	public static double maxAllowedSpeedChange = .05;
-	public static final OI oi = new OI();
+	public DriveSubsystem driveSubsystem;
+	public ShovelSubsystem shovel;
+	public static double maxAllowedSpeedChange = 0.2;
+	public Preferences preferences;
+	public OI oi;
 
     Command autonomousCommand;
-    SendableChooser chooser, chooser2;
+    SendableChooser chooser;
 
     public CMHCommandBasedRobot(){
     	System.out.println("CONSTRUCTING COMMAND BASED ROBOT");
+    }
+    
+    public void startCompetition(){
+    	System.out.println("STARTING COMPETITION");
+    	super.startCompetition();
     }
     
     /**
@@ -39,30 +48,27 @@ public class CMHCommandBasedRobot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-    	System.out.println("INIT COMMAND-BASED ROBOT");
-		driveBase = new DriveBase();
-		shovel = new Shovel();
+    	System.out.println("START ROBOT INIT");
+    	preferences = Preferences.getInstance();
+    	//maxAllowedSpeedChange = preferences.getDouble("maxAllowedSpeedChange", maxAllowedSpeedChange);
+		driveSubsystem = new DriveSubsystem();
+		shovel = new ShovelSubsystem();
+		oi = new OI(shovel);
 		
-		SmartDashboard.putData("ButtonPressed", new PressedCommand());
 		chooser = makeChooser();
-		chooser2 = makeChooser();
 		
 		SmartDashboard.putData("CMH Autonomous Mode 1", chooser);
-		//SmartDashboard.putData("CMH Autonomous Mode 2", chooser2);
-        /*chooser = new SendableChooser();
-        chooser.addDefault("Drive Auto", new TeleOpTankDrive());
-        chooser.addObject("Button Pressed Auto", new PressedCommand());
-        SmartDashboard.putData("Auto mode", chooser);*/
+		System.out.println("END ROBOT INIT");
     }
-	
 	
 	public SendableChooser makeChooser(){
 		SendableChooser chooser = new SendableChooser();
-        chooser.addDefault("Drive Forward 2s", new DriveCommand(2000, -.5, -.5));
-        chooser.addObject("Drive Backward 3s", new DriveCommand(3000, .5, .5));
-        chooser.addObject("Turn Left", new DriveCommand(1000, 0, -.5));
-        chooser.addObject("Turn Right", new DriveCommand(1000, -.5, 0));
-        chooser.addObject("Multiple Moves", new MultiMoveCommand());
+        chooser.addDefault("Drive Forward", new DriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -.61, -.61, null));
+        chooser.addObject("Drive Backward", new DriveCommand("Back", driveSubsystem.getRobotDrive(), driveSubsystem, 2000, .5, .5, null));
+        //chooser.addObject("Turn Left", new DriveCommand("Left", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, 0, -.5, null));
+        //chooser.addObject("Turn Right", new DriveCommand("Right", driveSubsystem.getRobotDrive(), driveSubsystem, 2500, -.5, .5, null));
+        chooser.addObject("Multiple Moves", new MultiMoveCommand(driveSubsystem.getRobotDrive(), driveSubsystem));
+        chooser.addObject("Do Nothing", new DriveCommand("Nothing", driveSubsystem.getRobotDrive(), driveSubsystem, 15000, 0.0, 0.0, null));
         return chooser;
 	}
     
@@ -89,28 +95,17 @@ public class CMHCommandBasedRobot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
+    	System.out.println("START AUTO INIT");
         autonomousCommand = (Command) chooser.getSelected();
-        
-		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		switch(autoSelected) {
-		case "My Auto":
-			autonomousCommand = new MyAutoCommand();
-			break;
-		case "Default Auto":
-		default:
-			autonomousCommand = new ExampleCommand();
-			break;
-		} */
-        
-        
     	
     	// schedule the autonomous command (example)
         if (autonomousCommand != null) {
-        	System.out.println("Selected command is " + autonomousCommand.getClass().getSimpleName());
+        	System.out.println("START selected command " + autonomousCommand.getClass().getSimpleName());
         	autonomousCommand.start();
         } else{
         	System.out.println("Autnonomous command is null");
         }
+        System.out.println("END AUTO INIT");
     }
 
     /**
@@ -132,7 +127,6 @@ public class CMHCommandBasedRobot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        System.out.println();
     	Scheduler.getInstance().run();
     }
     
