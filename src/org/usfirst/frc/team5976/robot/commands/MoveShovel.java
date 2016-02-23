@@ -29,6 +29,7 @@ public class MoveShovel extends Command{
 
 	@Override
 	protected boolean isFinished() {
+		//Returns false because command is active while the button is held
 		return false;
 	}
 

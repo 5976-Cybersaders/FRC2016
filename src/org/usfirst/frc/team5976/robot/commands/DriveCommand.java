@@ -3,6 +3,7 @@ package org.usfirst.frc.team5976.robot.commands;
 import org.usfirst.frc.team5976.robot.SpeedSource;
 import org.usfirst.frc.team5976.robot.subsystems.DriveSubsystem;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -15,6 +16,7 @@ public class DriveCommand extends Command {
 	private String desc;
 	private SpeedCalculator leftSpeedCalculator, rightSpeedCalculator;
 	private final RobotDrive robotDrive;
+	private PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
 	public DriveCommand(String desc, RobotDrive robotDrive, DriveSubsystem driveSubsystem, 
 			long timeMS, double leftSpeedTarget, double rightSpeedTarget, DriveCommand previousDriveCommand){
@@ -51,6 +53,7 @@ public class DriveCommand extends Command {
 		double nextRightSpeed = rightSpeedCalculator.calcNext();
 		robotDrive.tankDrive(nextLeftSpeed, nextRightSpeed);
 		long tl = timeMS - (System.currentTimeMillis() - t0);
+		System.out.println("Current Left: " + (pdp.getCurrent(2) + pdp.getCurrent(3)) + " Current Right: " + (pdp.getCurrent(12) + pdp.getCurrent(13)));
 		//System.out.println("Driving " + timeMS + " LL=" + leftSpeedCalculator.getLastSpeed() + " NL=" + nextLeftSpeed + " ML="+ leftSpeedCalculator.getAbsMaxSpeed() 
 			//+  " LR=" + rightSpeedCalculator.getLastSpeed() + " NR=" + nextRightSpeed + " MR=" + rightSpeedCalculator.getAbsMaxSpeed()  +  " " + tl);
 	}

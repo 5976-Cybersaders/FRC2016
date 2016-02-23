@@ -4,6 +4,7 @@ package org.usfirst.frc.team5976.robot;
 import org.usfirst.frc.team5976.robot.commands.*;
 
 import org.usfirst.frc.team5976.robot.subsystems.DriveSubsystem;
+import org.usfirst.frc.team5976.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team5976.robot.subsystems.ShovelSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -26,7 +27,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class CMHCommandBasedRobot extends IterativeRobot {
 	
 	public DriveSubsystem driveSubsystem;
-	public ShovelSubsystem shovel;
+	public ShovelSubsystem shovelSubsystem;
+	public IntakeSubsystem intakeSubsystem;
 	public static double maxAllowedSpeedChange = 0.2;
 	public Preferences preferences;
 	public OI oi;
@@ -52,8 +54,9 @@ public class CMHCommandBasedRobot extends IterativeRobot {
     	preferences = Preferences.getInstance();
     	//maxAllowedSpeedChange = preferences.getDouble("maxAllowedSpeedChange", maxAllowedSpeedChange);
 		driveSubsystem = new DriveSubsystem();
-		shovel = new ShovelSubsystem();
-		oi = new OI(shovel);
+		shovelSubsystem = new ShovelSubsystem();
+		intakeSubsystem = new IntakeSubsystem();
+		oi = new OI(shovelSubsystem);
 		
 		chooser = makeChooser();
 		
@@ -63,12 +66,15 @@ public class CMHCommandBasedRobot extends IterativeRobot {
 	
 	public SendableChooser makeChooser(){
 		SendableChooser chooser = new SendableChooser();
-        chooser.addDefault("Drive Forward", new DriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -.61, -.61, null));
+		double speed = 0.65;
+        chooser.addDefault("Drive Forward", new DriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -.65, -.65, null));
         chooser.addObject("Drive Backward", new DriveCommand("Back", driveSubsystem.getRobotDrive(), driveSubsystem, 2000, .5, .5, null));
-        //chooser.addObject("Turn Left", new DriveCommand("Left", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, 0, -.5, null));
-        //chooser.addObject("Turn Right", new DriveCommand("Right", driveSubsystem.getRobotDrive(), driveSubsystem, 2500, -.5, .5, null));
+        chooser.addObject("Turn Left", new DriveCommand("Left", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, speed, -speed, null));
+        chooser.addObject("Turn Right", new DriveCommand("Right", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -speed, speed, null));
         chooser.addObject("Multiple Moves", new MultiMoveCommand(driveSubsystem.getRobotDrive(), driveSubsystem));
         chooser.addObject("Do Nothing", new DriveCommand("Nothing", driveSubsystem.getRobotDrive(), driveSubsystem, 15000, 0.0, 0.0, null));
+        chooser.addDefault("Drive Forward 1s, 0.61", new DriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 1000, -.61, -.61, null));
+        chooser.addDefault("Drive Backward 5s, 0.65", new DriveCommand("Backward", driveSubsystem.getRobotDrive(), driveSubsystem, 5000, .65, .65, null));
         return chooser;
 	}
     

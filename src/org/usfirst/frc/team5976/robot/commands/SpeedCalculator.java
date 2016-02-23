@@ -9,19 +9,13 @@ abstract class SpeedCalculator implements SpeedSource {
 	private static double expoFactor = 0.2;
 	protected double lastSpeed;
 	protected double maxAllowedSpeedChange = Preferences.getInstance().getDouble("maxAllowedSpeedChange", 0.2);
-	protected boolean isInitialized = false;
 	
 	public void initialize() {
 		lastSpeed = getInitialSpeed();
-		System.out.println("In init: " + this);
+		System.out.println("In SC init: " + this);
 	}
 	
 	public double calcNext(){
-		if(!isInitialized) {
-			lastSpeed = getInitialSpeed();
-		    isInitialized = true;
-		    System.out.println("In CN init: " + this);
-	    }
 		
 		maxAllowedSpeedChange = Preferences.getInstance().getDouble("maxAllowedSpeedChange", 0.2);
 		//System.out.println(maxAllowedSpeedChange);

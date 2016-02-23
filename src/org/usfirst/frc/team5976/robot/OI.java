@@ -1,7 +1,9 @@
 package org.usfirst.frc.team5976.robot;
 
+import org.usfirst.frc.team5976.robot.commands.ButtonBasedIntakeCommand;
 import org.usfirst.frc.team5976.robot.commands.MoveShovel;
 import org.usfirst.frc.team5976.robot.commands.SpeedRampAdjustmentCommand;
+import org.usfirst.frc.team5976.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team5976.robot.subsystems.ShovelSubsystem;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -40,18 +42,25 @@ public class OI {
 	private static final double adjustmentAmount = 0.05;
 	private XBoxController driveController;
 	private XBoxController shovelController;
-	private XBoxButton shovelUpButton, shovelDownButton, increaseSpeedAdjustmentButton, decreaseSpeedAdjustmentButton;
+	private XBoxButton shovelUpButton, shovelDownButton, increaseSpeedAdjustmentButton, decreaseSpeedAdjustmentButton, intakeIn, intakeOut;
 	
-	public OI(ShovelSubsystem shovel){
+	public OI(ShovelSubsystem shovel, IntakeSubsystem intakeSubsystem){
 		driveController = new XBoxController(0);
 		shovelController = new XBoxController(1);
 		shovelUpButton = new XBoxButton(shovelController, 5);
 		shovelDownButton = new XBoxButton(shovelController, 6);
+		intakeIn = new XBoxButton(driveController, 5);
+		intakeOut = new XBoxButton(driveController, 6);
+		
 		//increaseSpeedAdjustmentButton = new XBoxButton(shovelController, 1);
 		//decreaseSpeedAdjustmentButton = new XBoxButton(shovelController, 2);
 		
 		shovelUpButton.whileHeld(new MoveShovel(shovel, DoubleSolenoid.Value.kForward));
 		shovelDownButton.whileHeld(new MoveShovel(shovel, DoubleSolenoid.Value.kReverse));
+		intakeIn.whileHeld(new ButtonBasedIntakeCommand(true, intakeSubsystem.getIntakeMotor(), intakeSubsystem));
+		intakeOut.whileHeld(new ButtonBasedIntakeCommand(false, intakeSubsystem.getIntakeMotor(), intakeSubsystem));
+		//driveControllerShovelUp.whileHeld(new MoveShovel(shovel, DoubleSolenoid.Value.kForward));
+		//driveControllerShovelDown.whileHeld(new MoveShovel(shovel, DoubleSolenoid.Value.kReverse));
 		//increaseSpeedAdjustmentButton.whenPressed(new SpeedRampAdjustmentCommand(adjustmentAmount));
 		//decreaseSpeedAdjustmentButton.whenPressed(new SpeedRampAdjustmentCommand(-adjustmentAmount));
 	}

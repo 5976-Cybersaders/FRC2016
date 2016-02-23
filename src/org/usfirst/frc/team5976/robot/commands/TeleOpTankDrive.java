@@ -4,6 +4,7 @@ import org.usfirst.frc.team5976.robot.CMHCommandBasedRobot;
 import org.usfirst.frc.team5976.robot.XBoxController;
 import org.usfirst.frc.team5976.robot.subsystems.DriveSubsystem;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -12,6 +13,7 @@ public class TeleOpTankDrive extends Command {
 	private final RobotDrive robotDrive;
 	private final SpeedCalculator leftSpeedCalculator; 
 	private final SpeedCalculator rightSpeedCalculator;
+	private PowerDistributionPanel pdp = new PowerDistributionPanel(); 
 	
 	public TeleOpTankDrive(XBoxController driveController, RobotDrive robotDrive, DriveSubsystem driveBase){
 		this.robotDrive = robotDrive;
@@ -27,6 +29,7 @@ public class TeleOpTankDrive extends Command {
 
 	@Override
 	protected void execute() {
+		System.out.println("Current Left: " + (pdp.getCurrent(2) + pdp.getCurrent(3)) + " Current Right: " + (pdp.getCurrent(12) + pdp.getCurrent(13)));
 		robotDrive.tankDrive(leftSpeedCalculator.calcNext(), rightSpeedCalculator.calcNext());
 	}
 	
