@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5976.robot.subsystems;
 
 import org.usfirst.frc.team5976.robot.commands.ShovelOff;
-import org.usfirst.frc.team5976.robot.commands.TeleOpTankDrive;
+import org.usfirst.frc.team5976.robot.commands.TeleOpTankDriveCommand;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;

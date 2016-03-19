@@ -8,14 +8,14 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TeleOpTankDrive extends Command {
+public class TeleOpTankDriveCommand extends Command {
 
 	private final RobotDrive robotDrive;
 	private final SpeedCalculator leftSpeedCalculator; 
 	private final SpeedCalculator rightSpeedCalculator;
 	private PowerDistributionPanel pdp = new PowerDistributionPanel(); 
 	
-	public TeleOpTankDrive(XBoxController driveController, RobotDrive robotDrive, DriveSubsystem driveBase){
+	public TeleOpTankDriveCommand(XBoxController driveController, RobotDrive robotDrive, DriveSubsystem driveBase){
 		this.robotDrive = robotDrive;
 		leftSpeedCalculator = new TeleOpSpeedCalculator(true, driveController);
 		rightSpeedCalculator = new TeleOpSpeedCalculator(false, driveController);

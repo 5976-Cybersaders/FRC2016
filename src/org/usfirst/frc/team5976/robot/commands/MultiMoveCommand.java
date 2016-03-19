@@ -19,9 +19,9 @@ public class MultiMoveCommand extends CommandGroup {
 		addSequential(delay2);
 		addSequential(command3);*/
 		
-		DriveCommand leftTurn = new DriveCommand("Left", robotDrive, driveBase, 4000, .65, -.65, null);
-		DriveCommand delay = new DriveCommand("Delay", robotDrive, driveBase, 1500, 0.0, 0.0, leftTurn);
-		DriveCommand rightTurn = new DriveCommand("Right", robotDrive, driveBase, 4000, -.65, .65, delay);
+		AutonomousDriveCommand leftTurn = new AutonomousDriveCommand("Left", robotDrive, driveBase, 4000, .65, -.65, null);
+		AutonomousDriveCommand delay = new AutonomousDriveCommand("Delay", robotDrive, driveBase, 1500, 0.0, 0.0, leftTurn);
+		AutonomousDriveCommand rightTurn = new AutonomousDriveCommand("Right", robotDrive, driveBase, 4000, -.65, .65, delay);
 		
 		addSequential(leftTurn);
 		addSequential(delay);

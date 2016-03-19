@@ -2,7 +2,7 @@ package org.usfirst.frc.team5976.robot.subsystems;
 
 import org.usfirst.frc.team5976.robot.RobotMap;
 import org.usfirst.frc.team5976.robot.XBoxController;
-import org.usfirst.frc.team5976.robot.commands.TeleOpTankDrive;
+import org.usfirst.frc.team5976.robot.commands.TeleOpTankDriveCommand;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -17,7 +17,7 @@ public class DriveSubsystem extends Subsystem {
 		robotDrive.setExpiration(0.1);
 		xBox = new XBoxController(0);
 		
-		setDefaultCommand(new TeleOpTankDrive(xBox, robotDrive, this));
+		setDefaultCommand(new TeleOpTankDriveCommand(xBox, robotDrive, this));
 	}
 
 	public RobotDrive getRobotDrive() {

@@ -11,15 +11,15 @@ import edu.wpi.first.wpilibj.command.Command;
  * @author Ryan Knuese
  */
 
-public class DriveCommand extends Command {
+public class AutonomousDriveCommand extends Command {
 	private long timeMS, t0;
 	private String desc;
 	private SpeedCalculator leftSpeedCalculator, rightSpeedCalculator;
 	private final RobotDrive robotDrive;
 	private PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
-	public DriveCommand(String desc, RobotDrive robotDrive, DriveSubsystem driveSubsystem, 
-			long timeMS, double leftSpeedTarget, double rightSpeedTarget, DriveCommand previousDriveCommand){
+	public AutonomousDriveCommand(String desc, RobotDrive robotDrive, DriveSubsystem driveSubsystem, 
+			long timeMS, double leftSpeedTarget, double rightSpeedTarget, AutonomousDriveCommand previousDriveCommand){
 		
 		this.desc = desc;
 		this.robotDrive = robotDrive;

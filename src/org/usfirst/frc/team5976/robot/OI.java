@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5976.robot;
 
 import org.usfirst.frc.team5976.robot.commands.ButtonBasedIntakeCommand;
-import org.usfirst.frc.team5976.robot.commands.MoveShovel;
+import org.usfirst.frc.team5976.robot.commands.MoveShovelCommand;
 import org.usfirst.frc.team5976.robot.commands.SpeedRampAdjustmentCommand;
 import org.usfirst.frc.team5976.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team5976.robot.subsystems.ShovelSubsystem;
@@ -55,8 +55,8 @@ public class OI {
 		//increaseSpeedAdjustmentButton = new XBoxButton(shovelController, 1);
 		//decreaseSpeedAdjustmentButton = new XBoxButton(shovelController, 2);
 		
-		shovelUpButton.whileHeld(new MoveShovel(shovel, DoubleSolenoid.Value.kForward));
-		shovelDownButton.whileHeld(new MoveShovel(shovel, DoubleSolenoid.Value.kReverse));
+		shovelUpButton.whileHeld(new MoveShovelCommand(shovel, DoubleSolenoid.Value.kForward));
+		shovelDownButton.whileHeld(new MoveShovelCommand(shovel, DoubleSolenoid.Value.kReverse));
 		intakeIn.whileHeld(new ButtonBasedIntakeCommand(true, intakeSubsystem.getIntakeMotor(), intakeSubsystem));
 		intakeOut.whileHeld(new ButtonBasedIntakeCommand(false, intakeSubsystem.getIntakeMotor(), intakeSubsystem));
 		//driveControllerShovelUp.whileHeld(new MoveShovel(shovel, DoubleSolenoid.Value.kForward));

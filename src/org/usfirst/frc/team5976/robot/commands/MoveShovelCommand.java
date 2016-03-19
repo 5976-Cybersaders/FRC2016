@@ -5,13 +5,13 @@ import org.usfirst.frc.team5976.robot.subsystems.ShovelSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class MoveShovel extends Command{
+public class MoveShovelCommand extends Command{
 
-	ShovelSubsystem shovel;
+	DoubleSolenoid doubleSolenoid;
 	DoubleSolenoid.Value direction;
 	
-	public MoveShovel(ShovelSubsystem shovel, DoubleSolenoid.Value direction){
-		this.shovel = shovel;
+	public MoveShovelCommand(ShovelSubsystem shovel, DoubleSolenoid.Value direction){
+		doubleSolenoid = shovel.getDoubleSolenoid();
 		this.direction = direction;
 		requires(shovel);
 	}
@@ -24,7 +24,7 @@ public class MoveShovel extends Command{
 	@Override
 	protected void execute() {
 		System.out.println("MOVING " + direction);
-		shovel.getDoubleSolenoid().set(direction);		
+		doubleSolenoid.set(direction);		
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class MoveShovel extends Command{
 
 	@Override
 	protected void end() {
-		shovel.getDoubleSolenoid().set(DoubleSolenoid.Value.kOff);
+		doubleSolenoid.set(DoubleSolenoid.Value.kOff);
 	}
 
 	@Override

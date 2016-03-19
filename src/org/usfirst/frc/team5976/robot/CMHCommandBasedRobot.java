@@ -56,7 +56,7 @@ public class CMHCommandBasedRobot extends IterativeRobot {
 		driveSubsystem = new DriveSubsystem();
 		shovelSubsystem = new ShovelSubsystem();
 		intakeSubsystem = new IntakeSubsystem();
-		oi = new OI(shovelSubsystem);
+		oi = new OI(shovelSubsystem, intakeSubsystem);
 		
 		chooser = makeChooser();
 		
@@ -67,14 +67,14 @@ public class CMHCommandBasedRobot extends IterativeRobot {
 	public SendableChooser makeChooser(){
 		SendableChooser chooser = new SendableChooser();
 		double speed = 0.65;
-        chooser.addDefault("Drive Forward", new DriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -.65, -.65, null));
-        chooser.addObject("Drive Backward", new DriveCommand("Back", driveSubsystem.getRobotDrive(), driveSubsystem, 2000, .5, .5, null));
-        chooser.addObject("Turn Left", new DriveCommand("Left", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, speed, -speed, null));
-        chooser.addObject("Turn Right", new DriveCommand("Right", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -speed, speed, null));
+        chooser.addDefault("Drive Forward", new AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -.65, -.65, null));
+        chooser.addObject("Drive Backward", new AutonomousDriveCommand("Back", driveSubsystem.getRobotDrive(), driveSubsystem, 2000, .5, .5, null));
+        chooser.addObject("Turn Left", new AutonomousDriveCommand("Left", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, speed, -speed, null));
+        chooser.addObject("Turn Right", new AutonomousDriveCommand("Right", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -speed, speed, null));
         chooser.addObject("Multiple Moves", new MultiMoveCommand(driveSubsystem.getRobotDrive(), driveSubsystem));
-        chooser.addObject("Do Nothing", new DriveCommand("Nothing", driveSubsystem.getRobotDrive(), driveSubsystem, 15000, 0.0, 0.0, null));
-        chooser.addDefault("Drive Forward 1s, 0.61", new DriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 1000, -.61, -.61, null));
-        chooser.addDefault("Drive Backward 5s, 0.65", new DriveCommand("Backward", driveSubsystem.getRobotDrive(), driveSubsystem, 5000, .65, .65, null));
+        chooser.addObject("Do Nothing", new AutonomousDriveCommand("Nothing", driveSubsystem.getRobotDrive(), driveSubsystem, 15000, 0.0, 0.0, null));
+        chooser.addDefault("Drive Forward 1s, 0.61", new AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 1000, -.61, -.61, null));
+        chooser.addDefault("Drive Backward 5s, 0.65", new AutonomousDriveCommand("Backward", driveSubsystem.getRobotDrive(), driveSubsystem, 5000, .65, .65, null));
         return chooser;
 	}
     
