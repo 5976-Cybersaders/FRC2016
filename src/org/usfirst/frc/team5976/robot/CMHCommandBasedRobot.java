@@ -8,9 +8,9 @@ import org.usfirst.frc.team5976.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team5976.robot.subsystems.ShovelSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
+//import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.RobotDrive;
+//import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -66,18 +66,30 @@ public class CMHCommandBasedRobot extends IterativeRobot {
 	
 	public SendableChooser makeChooser(){
 		SendableChooser chooser = new SendableChooser();
-		double speed = 0.65;
-        chooser.addDefault("Drive Forward", new AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -.65, -.65, null));
-        chooser.addObject("Drive Backward", new AutonomousDriveCommand("Back", driveSubsystem.getRobotDrive(), driveSubsystem, 2000, .5, .5, null));
-        chooser.addObject("Turn Left", new AutonomousDriveCommand("Left", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, speed, -speed, null));
-        chooser.addObject("Turn Right", new AutonomousDriveCommand("Right", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -speed, speed, null));
-        chooser.addObject("Multiple Moves", new MultiMoveCommand(driveSubsystem.getRobotDrive(), driveSubsystem));
+		//double speed = 0.65;
+        //chooser.addDefault("Drive Forward", new AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -.65, -.65, null));
+        //chooser.addObject("Drive Backward", new AutonomousDriveCommand("Back", driveSubsystem.getRobotDrive(), driveSubsystem, 2000, .5, .5, null));
+        //chooser.addObject("Turn Left", new AutonomousDriveCommand("Left", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, speed, -speed, null));
+        //chooser.addObject("Turn Right", new AutonomousDriveCommand("Right", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -speed, speed, null));
+        chooser.addDefault("Multiple Moves", new MultiMoveCommand(driveSubsystem.getRobotDrive(), driveSubsystem, shovelSubsystem, intakeSubsystem));
         chooser.addObject("Do Nothing", new AutonomousDriveCommand("Nothing", driveSubsystem.getRobotDrive(), driveSubsystem, 15000, 0.0, 0.0, null));
-        chooser.addDefault("Drive Forward 1s, 0.61", new AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 1000, -.61, -.61, null));
-        chooser.addDefault("Drive Backward 5s, 0.65", new AutonomousDriveCommand("Backward", driveSubsystem.getRobotDrive(), driveSubsystem, 5000, .65, .65, null));
+        chooser.addObject("Multi Move with Turn 1", makeMMC(5500, 4000, 3000, false, 500, 0.65));
+        chooser.addObject("Multi Move with Turn 2 Ball Out", makeMMC(5500, 4000, 3000, true, 500, 0.65));
+        chooser.addObject("Multi Move with Turn 3", makeMMC(5500, 4000, 3000, false, 500, 0.65));
+        //chooser.addDefault("Drive Forward 1s, 0.61", new AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 1000, -.61, -.61, null));
+        //chooser.addDefault("Drive Backward 5s, 0.65", new AutonomousDriveCommand("Backward", driveSubsystem.getRobotDrive(), driveSubsystem, 5000, .65, .65, null));
+        //chooser.addObject("Offset L0.65, R0.66", new AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -0.65, -0.66, null));
+        //chooser.addObject("Offset L0.65, R0.67", new AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -0.65, -0.67, null));
+        //chooser.addObject("Offset L0.65, R0.68", new AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -0.65, -0.68, null));
+        //chooser.addObject("Offset L0.65, R0.69", new AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -0.65, -0.69, null));
+        //chooser.addObject("Offset L0.65, R0.70", new AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -0.65, -0.70, null));
         return chooser;
 	}
     
+	protected MultiMoveCommandWithTurn makeMMC(long initialMoveTime, long turnTime, long secondMoveTime, boolean ballOut, long delayTime, double speed){
+		return new MultiMoveCommandWithTurn(driveSubsystem.getRobotDrive(), driveSubsystem, shovelSubsystem, intakeSubsystem, new MultiMoveConfig(initialMoveTime, turnTime, secondMoveTime, ballOut, delayTime, speed));
+	}
+	
 	/**
      * This function is called once each time the robot enters Disabled mode.
      * You can use it to reset any subsystem information you want to clear when

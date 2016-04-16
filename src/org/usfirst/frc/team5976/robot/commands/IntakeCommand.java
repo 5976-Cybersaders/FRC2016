@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public abstract class IntakeCommand extends Command{
 	
 	protected VictorSP intakeMotor;
-	protected double motorSpeed = 0.5;
+	protected double motorSpeed = 1.0;
 	
 	public IntakeCommand(VictorSP intakeMotor, IntakeSubsystem intakeSubsystem){
 		this.intakeMotor = intakeMotor;

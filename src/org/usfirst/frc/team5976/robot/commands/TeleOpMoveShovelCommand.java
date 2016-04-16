@@ -5,12 +5,12 @@ import org.usfirst.frc.team5976.robot.subsystems.ShovelSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class MoveShovelCommand extends Command{
+public class TeleOpMoveShovelCommand extends Command{
 
 	DoubleSolenoid doubleSolenoid;
 	DoubleSolenoid.Value direction;
 	
-	public MoveShovelCommand(ShovelSubsystem shovel, DoubleSolenoid.Value direction){
+	public TeleOpMoveShovelCommand(ShovelSubsystem shovel, DoubleSolenoid.Value direction){
 		doubleSolenoid = shovel.getDoubleSolenoid();
 		this.direction = direction;
 		requires(shovel);

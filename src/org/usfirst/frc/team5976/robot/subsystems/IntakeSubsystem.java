@@ -15,6 +15,7 @@ public class IntakeSubsystem extends Subsystem {
 	
 	@Override
 	protected void initDefaultCommand() {
+		xBox = new XBoxController(1);
 		setDefaultCommand(new StickBasedIntakeCommand(xBox, intakeMotor, this));
 	}
 

@@ -53,7 +53,7 @@ public class AutonomousDriveCommand extends Command {
 		double nextRightSpeed = rightSpeedCalculator.calcNext();
 		robotDrive.tankDrive(nextLeftSpeed, nextRightSpeed);
 		long tl = timeMS - (System.currentTimeMillis() - t0);
-		System.out.println("Current Left: " + (pdp.getCurrent(2) + pdp.getCurrent(3)) + " Current Right: " + (pdp.getCurrent(12) + pdp.getCurrent(13)));
+		//System.out.println("Current Left: " + (pdp.getCurrent(2) + pdp.getCurrent(3)) + " Current Right: " + (pdp.getCurrent(12) + pdp.getCurrent(13)));
 		//System.out.println("Driving " + timeMS + " LL=" + leftSpeedCalculator.getLastSpeed() + " NL=" + nextLeftSpeed + " ML="+ leftSpeedCalculator.getAbsMaxSpeed() 
 			//+  " LR=" + rightSpeedCalculator.getLastSpeed() + " NR=" + nextRightSpeed + " MR=" + rightSpeedCalculator.getAbsMaxSpeed()  +  " " + tl);
 	}

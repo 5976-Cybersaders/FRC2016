@@ -1,8 +1,9 @@
 package org.usfirst.frc.team5976.robot;
 
 import org.usfirst.frc.team5976.robot.commands.ButtonBasedIntakeCommand;
-import org.usfirst.frc.team5976.robot.commands.MoveShovelCommand;
 import org.usfirst.frc.team5976.robot.commands.SpeedRampAdjustmentCommand;
+import org.usfirst.frc.team5976.robot.commands.StickBasedIntakeCommand;
+import org.usfirst.frc.team5976.robot.commands.TeleOpMoveShovelCommand;
 import org.usfirst.frc.team5976.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team5976.robot.subsystems.ShovelSubsystem;
 
@@ -49,18 +50,24 @@ public class OI {
 		shovelController = new XBoxController(1);
 		shovelUpButton = new XBoxButton(shovelController, 5);
 		shovelDownButton = new XBoxButton(shovelController, 6);
-		intakeIn = new XBoxButton(driveController, 5);
-		intakeOut = new XBoxButton(driveController, 6);
+		//intakeIn = new XBoxButton(driveController, 5);
+		//intakeOut = new XBoxButton(driveController, 6);
 		
 		//increaseSpeedAdjustmentButton = new XBoxButton(shovelController, 1);
 		//decreaseSpeedAdjustmentButton = new XBoxButton(shovelController, 2);
 		
-		shovelUpButton.whileHeld(new MoveShovelCommand(shovel, DoubleSolenoid.Value.kForward));
-		shovelDownButton.whileHeld(new MoveShovelCommand(shovel, DoubleSolenoid.Value.kReverse));
-		intakeIn.whileHeld(new ButtonBasedIntakeCommand(true, intakeSubsystem.getIntakeMotor(), intakeSubsystem));
-		intakeOut.whileHeld(new ButtonBasedIntakeCommand(false, intakeSubsystem.getIntakeMotor(), intakeSubsystem));
+		shovelUpButton.whileHeld(new TeleOpMoveShovelCommand(shovel, DoubleSolenoid.Value.kForward));
+		shovelDownButton.whileHeld(new TeleOpMoveShovelCommand(shovel, DoubleSolenoid.Value.kReverse));
+		
+		//Intake system based on buttons as opposed to stick
+		//intakeIn.whileHeld(new ButtonBasedIntakeCommand(true, intakeSubsystem.getIntakeMotor(), intakeSubsystem));
+		//intakeOut.whileHeld(new ButtonBasedIntakeCommand(false, intakeSubsystem.getIntakeMotor(), intakeSubsystem));
+		
+		//If shovel movement is controlled by the driveController
 		//driveControllerShovelUp.whileHeld(new MoveShovel(shovel, DoubleSolenoid.Value.kForward));
 		//driveControllerShovelDown.whileHeld(new MoveShovel(shovel, DoubleSolenoid.Value.kReverse));
+		
+		//Testing speed adjustment amount (maximum allowed change)
 		//increaseSpeedAdjustmentButton.whenPressed(new SpeedRampAdjustmentCommand(adjustmentAmount));
 		//decreaseSpeedAdjustmentButton.whenPressed(new SpeedRampAdjustmentCommand(-adjustmentAmount));
 	}
