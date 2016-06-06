@@ -30,10 +30,10 @@ public class TeleOpTankDriveCommand extends Command {
 	@Override
 	protected void execute() {
 		//System.out.println("Current Left: " + (pdp.getCurrent(2) + pdp.getCurrent(3)) + " Current Right: " + (pdp.getCurrent(12) + pdp.getCurrent(13)));
-		/*System.out.println("Current L1: " + pdp.getCurrent(2));
+		System.out.println("Current L1: " + pdp.getCurrent(2));
 		System.out.println("Current L2: " + pdp.getCurrent(3));
 		System.out.println("Current R1: " + pdp.getCurrent(12));
-		System.out.println("Current R2: " + pdp.getCurrent(13));*/
+		System.out.println("Current R2: " + pdp.getCurrent(13));
 		robotDrive.tankDrive(leftSpeedCalculator.calcNext(), rightSpeedCalculator.calcNext());
 	}
 	

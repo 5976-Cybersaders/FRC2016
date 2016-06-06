@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class CMHCommandBasedRobot extends IterativeRobot {
-	
+
 	public DriveSubsystem driveSubsystem;
 	public ShovelSubsystem shovelSubsystem;
 	public IntakeSubsystem intakeSubsystem;
@@ -33,125 +33,159 @@ public class CMHCommandBasedRobot extends IterativeRobot {
 	public Preferences preferences;
 	public OI oi;
 
-    Command autonomousCommand;
-    SendableChooser chooser;
+	Command autonomousCommand;
+	SendableChooser chooser;
 
-    public CMHCommandBasedRobot(){
-    	System.out.println("CONSTRUCTING COMMAND BASED ROBOT");
-    }
-    
-    public void startCompetition(){
-    	System.out.println("STARTING COMPETITION");
-    	super.startCompetition();
-    }
-    
-    /**
-     * This function is run when the robot is first started up and should be
-     * used for any initialization code.
-     */
-    public void robotInit() {
-    	System.out.println("START ROBOT INIT");
-    	preferences = Preferences.getInstance();
-    	//maxAllowedSpeedChange = preferences.getDouble("maxAllowedSpeedChange", maxAllowedSpeedChange);
+	public CMHCommandBasedRobot() {
+		System.out.println("CONSTRUCTING COMMAND BASED ROBOT");
+	}
+
+	public void startCompetition() {
+		System.out.println("STARTING COMPETITION");
+		super.startCompetition();
+	}
+
+	/**
+	 * This function is run when the robot is first started up and should be
+	 * used for any initialization code.
+	 */
+	public void robotInit() {
+		System.out.println("START ROBOT INIT");
+		preferences = Preferences.getInstance();
+		// maxAllowedSpeedChange =
+		// preferences.getDouble("maxAllowedSpeedChange",
+		// maxAllowedSpeedChange);
 		driveSubsystem = new DriveSubsystem();
 		shovelSubsystem = new ShovelSubsystem();
 		intakeSubsystem = new IntakeSubsystem();
 		oi = new OI(shovelSubsystem, intakeSubsystem);
-		
+
 		chooser = makeChooser();
-		
+
 		SmartDashboard.putData("CMH Autonomous Mode 1", chooser);
 		System.out.println("END ROBOT INIT");
-    }
-	
-	public SendableChooser makeChooser(){
-		SendableChooser chooser = new SendableChooser();
-		//double speed = 0.65;
-        //chooser.addDefault("Drive Forward", new AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -.65, -.65, null));
-        //chooser.addObject("Drive Backward", new AutonomousDriveCommand("Back", driveSubsystem.getRobotDrive(), driveSubsystem, 2000, .5, .5, null));
-        //chooser.addObject("Turn Left", new AutonomousDriveCommand("Left", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, speed, -speed, null));
-        //chooser.addObject("Turn Right", new AutonomousDriveCommand("Right", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -speed, speed, null));
-        chooser.addDefault("Multiple Moves", new MultiMoveCommand(driveSubsystem.getRobotDrive(), driveSubsystem, shovelSubsystem, intakeSubsystem));
-        chooser.addObject("Do Nothing", new AutonomousDriveCommand("Nothing", driveSubsystem.getRobotDrive(), driveSubsystem, 15000, 0.0, 0.0, null));
-        chooser.addObject("Multi Move with Turn 1", makeMMC(5500, 4000, 3000, false, 500, 0.65));
-        chooser.addObject("Multi Move with Turn 2 Ball Out", makeMMC(5500, 4000, 3000, true, 500, 0.65));
-        chooser.addObject("Multi Move with Turn 3", makeMMC(5500, 4000, 3000, false, 500, 0.65));
-        //chooser.addDefault("Drive Forward 1s, 0.61", new AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 1000, -.61, -.61, null));
-        //chooser.addDefault("Drive Backward 5s, 0.65", new AutonomousDriveCommand("Backward", driveSubsystem.getRobotDrive(), driveSubsystem, 5000, .65, .65, null));
-        //chooser.addObject("Offset L0.65, R0.66", new AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -0.65, -0.66, null));
-        //chooser.addObject("Offset L0.65, R0.67", new AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -0.65, -0.67, null));
-        //chooser.addObject("Offset L0.65, R0.68", new AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -0.65, -0.68, null));
-        //chooser.addObject("Offset L0.65, R0.69", new AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -0.65, -0.69, null));
-        //chooser.addObject("Offset L0.65, R0.70", new AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -0.65, -0.70, null));
-        return chooser;
 	}
-    
-	protected MultiMoveCommandWithTurn makeMMC(long initialMoveTime, long turnTime, long secondMoveTime, boolean ballOut, long delayTime, double speed){
-		return new MultiMoveCommandWithTurn(driveSubsystem.getRobotDrive(), driveSubsystem, shovelSubsystem, intakeSubsystem, new MultiMoveConfig(initialMoveTime, turnTime, secondMoveTime, ballOut, delayTime, speed));
-	}
-	
-	/**
-     * This function is called once each time the robot enters Disabled mode.
-     * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
-     */
-    public void disabledInit(){
 
-    }
-	
+	public SendableChooser makeChooser() {
+		SendableChooser chooser = new SendableChooser();
+		// double speed = 0.65;
+		// chooser.addDefault("Drive Forward", new
+		// AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(),
+		// driveSubsystem, 4000, -.65, -.65, null));
+		// chooser.addObject("Drive Backward", new
+		// AutonomousDriveCommand("Back", driveSubsystem.getRobotDrive(),
+		// driveSubsystem, 2000, .5, .5, null));
+		// chooser.addObject("Turn Left", new AutonomousDriveCommand("Left",
+		// driveSubsystem.getRobotDrive(), driveSubsystem, 4000, speed, -speed,
+		// null));
+		// chooser.addObject("Turn Right", new AutonomousDriveCommand("Right",
+		// driveSubsystem.getRobotDrive(), driveSubsystem, 4000, -speed, speed,
+		// null));
+		chooser.addObject("Multiple Moves",
+				new MultiMoveCommand(driveSubsystem.getRobotDrive(), driveSubsystem, shovelSubsystem, intakeSubsystem));
+		chooser.addObject("Do Nothing", new AutonomousDriveCommand("Nothing", driveSubsystem.getRobotDrive(),
+				driveSubsystem, 15000, 0.0, 0.0, null));
+		chooser.addDefault("Multi Move with Turn 1", makeMMC(4500, 375, 2000, false, 500, 0.65));
+		chooser.addObject("Multi Move with Turn 2 Ball Out", makeMMC(5500, 4000, 3000, true, 500, 0.65));
+		chooser.addObject("Defensive", makeMMC(4000, 0, 0, false, 500, 0.65));
+		chooser.addObject("Approach only", new AutonomousDriveCommand("Forward 1s", driveSubsystem.getRobotDrive(), driveSubsystem, 1000, -.65, -.65, null));
+		chooser.addObject("Score Ball", makeMMC(4500, 375, 4000, true, 500, 0.65));
+		// chooser.addDefault("Drive Forward 1s, 0.61", new
+		// AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(),
+		// driveSubsystem, 1000, -.61, -.61, null));
+		// chooser.addDefault("Drive Backward 5s, 0.65", new
+		// AutonomousDriveCommand("Backward", driveSubsystem.getRobotDrive(),
+		// driveSubsystem, 5000, .65, .65, null));
+		// chooser.addObject("Offset L0.65, R0.66", new
+		// AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(),
+		// driveSubsystem, 4000, -0.65, -0.66, null));
+		// chooser.addObject("Offset L0.65, R0.67", new
+		// AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(),
+		// driveSubsystem, 4000, -0.65, -0.67, null));
+		// chooser.addObject("Offset L0.65, R0.68", new
+		// AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(),
+		// driveSubsystem, 4000, -0.65, -0.68, null));
+		// chooser.addObject("Offset L0.65, R0.69", new
+		// AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(),
+		// driveSubsystem, 4000, -0.65, -0.69, null));
+		// chooser.addObject("Offset L0.65, R0.70", new
+		// AutonomousDriveCommand("Forward", driveSubsystem.getRobotDrive(),
+		// driveSubsystem, 4000, -0.65, -0.70, null));
+		return chooser;
+	}
+
+	protected MultiMoveCommandWithTurn makeMMC(long initialMoveTime, long turnTime, long secondMoveTime,
+			boolean ballOut, long delayTime, double speed) {
+		return new MultiMoveCommandWithTurn(driveSubsystem.getRobotDrive(), driveSubsystem, shovelSubsystem,
+				intakeSubsystem,
+				new MultiMoveConfig(initialMoveTime, turnTime, secondMoveTime, ballOut, delayTime, speed));
+	}
+
+	/**
+	 * This function is called once each time the robot enters Disabled mode.
+	 * You can use it to reset any subsystem information you want to clear when
+	 * the robot is disabled.
+	 */
+	public void disabledInit() {
+
+	}
+
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 	}
 
 	/**
-	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
-	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
-	 * Dashboard, remove all of the chooser code and uncomment the getString code to get the auto name from the text box
-	 * below the Gyro
+	 * This autonomous (along with the chooser code above) shows how to select
+	 * between different autonomous modes using the dashboard. The sendable
+	 * chooser code works with the Java SmartDashboard. If you prefer the
+	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
+	 * getString code to get the auto name from the text box below the Gyro
 	 *
-	 * You can add additional auto modes by adding additional commands to the chooser code above (like the commented example)
-	 * or additional comparisons to the switch structure below with additional strings & commands.
+	 * You can add additional auto modes by adding additional commands to the
+	 * chooser code above (like the commented example) or additional comparisons
+	 * to the switch structure below with additional strings & commands.
 	 */
-    public void autonomousInit() {
-    	System.out.println("START AUTO INIT");
-        autonomousCommand = (Command) chooser.getSelected();
-    	
-    	// schedule the autonomous command (example)
-        if (autonomousCommand != null) {
-        	System.out.println("START selected command " + autonomousCommand.getClass().getSimpleName());
-        	autonomousCommand.start();
-        } else{
-        	System.out.println("Autnonomous command is null");
-        }
-        System.out.println("END AUTO INIT");
-    }
+	public void autonomousInit() {
+		System.out.println("START AUTO INIT");
+		autonomousCommand = (Command) chooser.getSelected();
 
-    /**
-     * This function is called periodically during autonomous
-     */
-    public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
-    }
+		// schedule the autonomous command (example)
+		if (autonomousCommand != null) {
+			System.out.println("START selected command " + autonomousCommand.getClass().getSimpleName());
+			autonomousCommand.start();
+		} else {
+			System.out.println("Autnonomous command is null");
+		}
+		System.out.println("END AUTO INIT");
+	}
 
-    public void teleopInit() {
+	/**
+	 * This function is called periodically during autonomous
+	 */
+	public void autonomousPeriodic() {
+		Scheduler.getInstance().run();
+	}
+
+	public void teleopInit() {
 		// This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to 
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
-        if (autonomousCommand != null) autonomousCommand.cancel();
-    }
+		// teleop starts running. If you want the autonomous to
+		// continue until interrupted by another command, remove
+		// this line or comment it out.
+		if (autonomousCommand != null)
+			autonomousCommand.cancel();
+	}
 
-    /**
-     * This function is called periodically during operator control
-     */
-    public void teleopPeriodic() {
-    	Scheduler.getInstance().run();
-    }
-    
-    /**
-     * This function is called periodically during test mode
-     */
-    public void testPeriodic() {
-        LiveWindow.run();
-    }
+	/**
+	 * This function is called periodically during operator control
+	 */
+	public void teleopPeriodic() {
+		Scheduler.getInstance().run();
+	}
+
+	/**
+	 * This function is called periodically during test mode
+	 */
+	public void testPeriodic() {
+		LiveWindow.run();
+	}
 }

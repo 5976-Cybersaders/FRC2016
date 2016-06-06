@@ -2,11 +2,11 @@ package org.usfirst.frc.team5976.robot.commands;
 
 import org.usfirst.frc.team5976.robot.XBoxController;
 
-class TeleOpSpeedCalculator extends SpeedCalculator{
-	
+class TeleOpSpeedCalculator extends SpeedCalculator {
+
 	private XBoxController driveController;
 	private boolean isLeft;
-	
+
 	public TeleOpSpeedCalculator(boolean isLeft, XBoxController driveController) {
 		super();
 		this.driveController = driveController;
@@ -15,7 +15,7 @@ class TeleOpSpeedCalculator extends SpeedCalculator{
 
 	@Override
 	protected double getRawReading() {
-		if(isLeft) return driveController.getLeftJoyY();
+		if (isLeft) return driveController.getLeftJoyY();
 		return driveController.getRightJoyY();
 	}
 
